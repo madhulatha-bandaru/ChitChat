@@ -113,6 +113,7 @@ const Login = () => {
       <AuthImagePattern
         title={"Welcome back!"}
         subtitle={"Sign in to continue your conversations and catch up with your messages."}
+        copyright={"© Created By Madhu Latha"}
       />
     </div>
   )
