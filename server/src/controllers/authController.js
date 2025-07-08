@@ -123,7 +123,9 @@ export const updateProfile = async (req, res) => {
 
     const uploadedResponse = await cloudinary.uploader.upload(profilePic)
 
+    // update in the database as well
     const updatedUser = await User.findByIdAndUpdate(userId, {profilePic : uploadedResponse.secure_url}, {new:true})
+    // secure_url is a field that cloudinary gives you back
     res.status(200).json(updatedUser);
 
   } catch(error){
