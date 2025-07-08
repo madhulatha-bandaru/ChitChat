@@ -7,8 +7,9 @@ import { getReceiverSocketId, io } from '../lib/socket.js'
 export const getUsersForSideBar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id
-    const filteredUsers = await User.find({_id :{$ne : loggedInUserId}}).select("-password");
-    res.status(200).json(filteredUsers)
+    const otherUsers = await User.find({_id :{$ne : loggedInUserId}}).select("-password"); // select every
+    // other user except himself to display on chats section and exclude password from every user
+    res.status(200).json(otherUsers)
   } catch(error) {
     console.error("error in getUsersForSideBar: ", error.message)
     res.status(500).json({message : "Internal Server Error"})
@@ -17,9 +18,11 @@ export const getUsersForSideBar = async (req, res) => {
 
 export const getMessages = async (req, res) => {
   try {
-    const {id:userToChatId} = req.params
+    const {id:userToChatId} = req.params // receiver id, which comes on clicking that person's chat
 
-    const myId = req.user._id
+    const myId = req.user._id // sender id
+
+    // retrieve all the messages of that particular pair of people
     const messages = await Message.find({
       $or:[
         {senderId : myId, receiverId : userToChatId},
@@ -41,6 +44,8 @@ export const sendMessage = async (req, res) => {
     const senderId = req.user._id
 
     let imageUrl;
+
+    // if user sends an image, that must be uploaded to cloudinary
     if(image) {
       // upload base64 image to cloudinary
       const uploadedResponse = await cloudinary.uploader.upload(image)
