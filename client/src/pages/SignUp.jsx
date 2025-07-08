@@ -159,7 +159,7 @@ const SignUp = () => {
       <AuthImagePattern 
         title="Join our community"
         subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
-        copyright="© Created By Madhu Latha"
+        copyright="© Created By Madhu Latha and Sivani"
       />
 
     </div>
